@@ -8,7 +8,9 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "slugify": "^1.4.0"
+  },
   "devDependencies": {
     "nodemon": "^2.0.2"
   }
