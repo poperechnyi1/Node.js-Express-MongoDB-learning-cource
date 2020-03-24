@@ -1,6 +1,10 @@
 const express = require('express');
 const fs = require('fs');
+const morgan = require('morgan');
 const app = express();
+
+// 1 MIDDLEWARES
+app.use(morgan('dev'));
 
 app.use(express.json());
 
@@ -17,6 +21,8 @@ app.use((req, res, next) => {
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
+
+// 2) ROUT HANDLERS
 
 const getAllTours = (req, res) => {
   console.log(req.requestTime);
@@ -101,6 +107,8 @@ const deleteTour = (req, res) => {
   });
 };
 
+// 3) ROUTS
+
 app
   .route('/api/v1/tours')
   .get(getAllTours)
@@ -112,6 +120,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+//4) START THE SERVER
 const port = 3000;
 app.listen(port, () => {
   console.log(`App runing on port ${port}...`);
