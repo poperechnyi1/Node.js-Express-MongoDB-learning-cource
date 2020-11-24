@@ -5,7 +5,7 @@ const handleCastErrorDB = err => {
   return new AppError(message, 404)
 }
 
-const handleDupricatredFieldsDB = err => {
+const handleDuplicatredFieldsDB = err => {
   const value = err.errmsg.match(/(["'])(?:(?=(\\?))\2.)*?\1/)[0]
   console.log(10, value)
   const message = `Duplicate field value ${value}. Please use another value!`
@@ -58,7 +58,8 @@ module.exports = (err, req, res, next) => {
     } else if (process.env.NODE_ENV === "production") {
       let error = {...err}
       if (error.name === "CastError") error = handleCastErrorDB(error)
-      if (error.code === 11000) error = handleDupricatredFieldsDB(error)
+      if (error.code === 11000) error = handleDuplicatredFieldsDB(error)
+      if (error.name === "ValidationError") error = 
 
       sendErrorProduction(error, res)
     }
