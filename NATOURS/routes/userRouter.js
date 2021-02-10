@@ -10,7 +10,9 @@ const {
   signup, 
   login,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  protect,
+  updatePassword
 } = require('./../controllers/authController');
 
 
@@ -21,6 +23,12 @@ router.route('/login').post(login)
 
 router.route('/forgotPassword').post(forgotPassword)
 router.route('/resetPassword/:token').patch(resetPassword)
+
+router.patch(
+  '/updateMyPassword', 
+  protect, 
+  updatePassword
+)
 
 router
   .route('/')
