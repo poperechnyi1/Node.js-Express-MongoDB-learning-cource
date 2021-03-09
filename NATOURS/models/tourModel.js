@@ -84,33 +84,33 @@ const tourSchema = new mongoose.Schema(
       type: {
         type: String,
         default: 'Point',
-        enum: ['Point']
+        enum: ['Point'],
       },
       coordinates: {
-        type: [Number]
+        type: [Number],
       },
       address: String,
-      descption: String
+      descption: String,
     },
     locations: [
       {
         type: {
           type: String,
           default: 'Point',
-          enum: ['Point']
+          enum: ['Point'],
         },
         coordinates: [Number],
         address: String,
         descption: String,
-        day: Number
-      }
+        day: Number,
+      },
     ],
     guides: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: 'User'
-      }
-    ]
+        ref: 'User',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -120,6 +120,13 @@ const tourSchema = new mongoose.Schema(
 
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
+});
+
+// Virtual populate
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
 });
 
 //DOCUMENT MIDDLEWARE: runs before .save() and .create() .insertMany
@@ -152,13 +159,13 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-tourSchema.pre(/^find/, function(next){
+tourSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'guides',
-    select: '-__v -passwordChangedAt'
-  })
+    select: '-__v -passwordChangedAt',
+  });
   next();
-})
+});
 
 tourSchema.post(/^find/, function (doc, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds`);
