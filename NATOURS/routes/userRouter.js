@@ -6,44 +6,33 @@ const {
   updateUser,
   updateMe,
   deleteUser,
-  deleteMe
+  deleteMe,
 } = require('./../controllers/userController');
-const { 
-  signup, 
+const {
+  signup,
   login,
   forgotPassword,
   resetPassword,
   protect,
-  updatePassword
+  updatePassword,
+  restrictTo,
 } = require('./../controllers/authController');
-
 
 const router = express.Router();
 
-router.route('/signup').post(signup)
-router.route('/login').post(login)
+router.route('/signup').post(signup);
+router.route('/login').post(login);
 
-router.route('/forgotPassword').post(forgotPassword)
-router.route('/resetPassword/:token').patch(resetPassword)
+router.route('/forgotPassword').post(forgotPassword);
+router.route('/resetPassword/:token').patch(resetPassword);
 
-router.patch(
-  '/updateMyPassword', 
-  protect, 
-  updatePassword
-)
+router.patch('/updateMyPassword', protect, updatePassword);
 
-router.patch('/updateMe', protect, updateMe)
-router.delete('/deleteMe', protect, deleteMe)
+router.patch('/updateMe', protect, updateMe);
+router.delete('/deleteMe', protect, deleteMe);
 
-router
-  .route('/')
-  .get(getAllUsers)
-  .post(createUser);
+router.route('/').get(getAllUsers).post(createUser);
 
-router
-  .route('/:id')
-  .get(getUser)
-  .patch(updateUser)
-  .delete(deleteUser);
+router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
 module.exports = router;
