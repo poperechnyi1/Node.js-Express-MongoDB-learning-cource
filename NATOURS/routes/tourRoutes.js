@@ -11,9 +11,25 @@ const {
   getMonthlyPlan,
 } = require('./../controllers/tourController');
 const authController = require('./../controllers/authController');
-const reviewController = require('./../controllers/reviewController');
+// const reviewController = require('./../controllers/reviewController');
+const reviewRouter = require('./../routes/reviewRoutes');
 
 // router.param('id', checkID);
+
+// POST /tour/234234/reviews
+// GET /tour/234234/reviews
+// GET /tour/234234/reviews/345435
+
+// router
+//   .route('/:tourId/reviews')
+//   .post(
+//     authController.protect,
+//     authController.restrictTo('user'),
+//     reviewController.createReview
+//   );
+
+router.use('/:tourId/reviews', reviewRouter);
+
 router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 
 router.route('/tour-stats').get(getTourStats);
@@ -29,18 +45,6 @@ router
     authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
     deleteTour
-  );
-
-// POST /tour/234234/reviews
-// GET /tour/234234/reviews
-// GET /tour/234234/reviews/345435
-
-router
-  .route('/:tourId/reviews')
-  .post(
-    authController.protect,
-    authController.restrictTo('user'),
-    reviewController.createReview
   );
 
 module.exports = router;
