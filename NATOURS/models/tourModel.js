@@ -61,9 +61,10 @@ const tourSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'A tour must have a description'],
     },
-    descption: {
+    description: {
       type: String,
       trim: true,
+      required: [true, 'A tour must have a description'],
     },
     imageCover: {
       type: String,
@@ -91,7 +92,7 @@ const tourSchema = new mongoose.Schema(
         type: [Number],
       },
       address: String,
-      descption: String,
+      description: String,
     },
     locations: [
       {
@@ -102,7 +103,7 @@ const tourSchema = new mongoose.Schema(
         },
         coordinates: [Number],
         address: String,
-        descption: String,
+        description: String,
         day: Number,
       },
     ],
