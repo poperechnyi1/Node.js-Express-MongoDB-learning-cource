@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser')
 const app = express();
 const rateLimit = require('express-rate-limit');
 const AppError = require('./utils/appError');
@@ -39,6 +40,7 @@ app.use('/api', limiter);
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser())
 
 //DATA santization against NoSQL, query injections
 app.use(mongooseSanitize());
@@ -63,6 +65,7 @@ app.use(
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
+  console.log(req.cookies)
   next();
 });
 
